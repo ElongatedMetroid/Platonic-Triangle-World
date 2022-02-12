@@ -10,8 +10,8 @@
 #define Z 2
 #define W 3
 
-#define WIN_WIDTH 1080
-#define WIN_HEIGHT 720
+#define WIN_WIDTH 1920
+#define WIN_HEIGHT 1080
 #define WIN_TITTLE "Platonic Triangle World"
 
 #define VSHADER_PATH "../shaders/shader.vs"

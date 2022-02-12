@@ -1,21 +1,21 @@
 #include "../../include/input.h"
 
 void processInput(GLFWwindow *window){
-    //buffers to temp store answers
+    //vector buffers to temp store answers
     vec3 v;
     vec3 vv;
-    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)       //if escape is pressed, exit
         glfwSetWindowShouldClose(window, GL_TRUE);
-    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)            //if w is pressed add camera speed to camera front (move camera forward)
         glm_vec3_muladds(cameraFront, cameraSpeed, cameraPos);
-    if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        glm_vec3_mulsubs(cameraFront, cameraSpeed, cameraPos);
-    if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
-        glm_vec3_cross(cameraFront, cameraUp, v);
-        glm_normalize_to(v, vv);
-        glm_vec3_mulsubs(vv, cameraSpeed, cameraPos);
+    if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)            //if s is press substract camera speed from camera front (move camera backwards)
+        glm_vec3_mulsubs(cameraFront, cameraSpeed, cameraPos);  
+    if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){           //if a is pressed get the cross product of cameraFront and cameraUp
+        glm_vec3_cross(cameraFront, cameraUp, v);               //store it in v
+        glm_normalize_to(v, vv);                                //normalize v store solution in vv
+        glm_vec3_mulsubs(vv, cameraSpeed, cameraPos);           //subtract vv from camera speed store in camera pos (move left)
     }
-    if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
+    if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){           
         glm_vec3_cross(cameraFront, cameraUp, v);
         glm_normalize_to(v, vv);
         glm_vec3_muladds(vv, cameraSpeed, cameraPos);
