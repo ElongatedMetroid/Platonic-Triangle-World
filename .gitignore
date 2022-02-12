@@ -29,6 +29,7 @@
 *.dylib
 
 # Executables
+build
 *.exe
 *.out
 *.app
@@ -41,6 +42,7 @@
 *.su
 *.idb
 *.pdb
+.vscode
 
 # Kernel Module Compile Results
 *.mod*
