@@ -63,6 +63,7 @@ int main(void) {
 
   initGame(&window);
 
+  //read the shaders from the vertex and fragment shader files, link them, and compile them (the program is referenced by ShaderID)
   Shader_ReadAndBuild(VSHADER_PATH, FSHADER_PATH);
 
   // create Vertex Array Object
@@ -71,9 +72,20 @@ int main(void) {
   VAO_Bind();
   // create a Vertex Buffer Object
   VBO_Create(cubeVertices, cubeVerticesSize);
-  VAO_Link();
+  // link layout 0, 3 elements, those elements are floats, the total size of each line in 5 floats, 0 floats to get to these elements 
+  VAO_LinkAttrib(0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
+  // link layout 1, 2 elements, those elements are floats, the total size of each line is 5 floats, 3 floats to get to these elements
+  VAO_LinkAttrib(1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
-  initTextures();
+  // unbind Vertex objects/references from buffers
+  VBO_Unbind();
+  VAO_Unbind();
+	
+  //create 2 texture references, one for awesome face and the other for grass
+  GLuint texture_awesomeface, texture_grass;
+  //Texture reference, texture path, type of texture, texture slot, format, and pixel type 
+  Texture_Load(&texture_awesomeface, "../textures/awesomeface.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+  Texture_Load(&texture_grass, "../textures/grass.jpeg", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGB, GL_UNSIGNED_BYTE);
 
   // use the created shader program
   Shader_Use();
@@ -98,14 +110,16 @@ int main(void) {
 
     // set the active textures
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture1);
+    glBindTexture(GL_TEXTURE_2D, texture_awesomeface);
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, texture2);
+    glBindTexture(GL_TEXTURE_2D, texture_grass);
 
+	// Make sure we are using the shaders we specified earlier	
     Shader_Use();
     // update camera positions
     Camera_Update();
 
+	// bind Vertex Array Object/reference because following this we will be drawing to the buffer 
     VAO_Bind();
 
     for (unsigned int rows = 0; rows < 100; rows++) {
@@ -127,7 +141,9 @@ int main(void) {
     glfwPollEvents();
   }
 
+  // destroy the glfw window
   glfwDestroyWindow(window);
+  // clean up
   glfwTerminate();
 
   return 0;
