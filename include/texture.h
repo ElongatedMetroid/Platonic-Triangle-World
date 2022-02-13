@@ -6,9 +6,14 @@
 #include <stdbool.h>
 #include "external/stb_image.h"
 #include "common.h"
+#include "shader.h"
 
-extern int texture1, texture2;
+void Texture_Load(GLuint *ID, const char *image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType);
 
-void initTextures(void);
+void Texture_TexUnit(const char *uniform, GLuint unit);
+
+void Texture_Bind(GLenum type, GLuint *ID);
+void Texture_Unbind(GLenum type, GLuint *ID);
+void Texture_Delete(GLenum type, GLuint *ID);
 
 #endif
