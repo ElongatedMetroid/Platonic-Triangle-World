@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 
+//VBO: Vertex Buffer Object
 extern GLuint VBOID;
 
 void VBO_Create(GLfloat *vertices, GLsizeiptr size);

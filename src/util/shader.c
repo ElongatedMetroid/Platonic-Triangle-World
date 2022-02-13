@@ -60,8 +60,11 @@ int Shader_ReadAndBuild(const char* vertexPath, const char *fragmentPath){
     int success; 
     char infoLog[512];
 
+	//all openGL objects are acessed through a reference, here we are getting and setting vertex to a reference value
     vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertex, 1, &vShaderCode, NULL);
+	//reference value, 1 string for the whole shader, pointer to source code
+	glShaderSource(vertex, 1, &vShaderCode, NULL);
+	//pass the reference to the vertex shader to glCompileShader so OpenGL can compile the shader to machine code
     glCompileShader(vertex);
 
     glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
@@ -82,9 +85,12 @@ int Shader_ReadAndBuild(const char* vertexPath, const char *fragmentPath){
         return -1;
     }
 
+	//set the ShaderID reference value
     ShaderID = glCreateProgram();
+	//attach both shaders to the shader program
     glAttachShader(ShaderID, vertex);
     glAttachShader(ShaderID, fragment);
+	//link all shaders together
     glLinkProgram(ShaderID);
 
     glGetProgramiv(ShaderID, GL_LINK_STATUS, &success);
@@ -93,7 +99,8 @@ int Shader_ReadAndBuild(const char* vertexPath, const char *fragmentPath){
         fprintf(stderr, "Shader program linking failed!\n %s\n", infoLog);
         return -1;
     }
-
+	
+	//delete the shaders since they are already in the program
     glDeleteShader(vertex);
     glDeleteShader(fragment);
 
