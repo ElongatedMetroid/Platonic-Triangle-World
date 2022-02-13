@@ -8,7 +8,7 @@
 extern GLuint VAOID;
 
 void VAO_Create();
-void VAO_Link();
+void VAO_LinkAttrib(GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void *offset);
 void VAO_Bind();
 void VAO_Unbind();
 void VAO_Delete();
