@@ -39,7 +39,7 @@ void initGame(GLFWwindow **window) {
   // Tell GLFW we want to use the window
   glfwMakeContextCurrent(*window);
   glfwSetFramebufferSizeCallback(*window, framebuffer_size_callback);
-  glfwSetCursorPosCallback(*window, mouse_callback);
+  glfwSetCursorPosCallback(*window, camera_mouse_callback);
 
   glfwSetInputMode(*window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -102,7 +102,7 @@ int main(void) {
     lastFrame = currentFrame;
 
     // process any input
-    processInput(window);
+    processCameraInput(window);
 
     // Color to clear the screen with
     glClearColor(0.00f, 0.10f, 0.20f, 1.0f);

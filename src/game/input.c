@@ -1,6 +1,6 @@
 #include "../../include/input.h"
 
-void processInput(GLFWwindow *window){
+void processCameraInput(GLFWwindow *window){
     //vector buffers to temp store answers
     vec3 v;
     vec3 vv;
@@ -23,7 +23,7 @@ void processInput(GLFWwindow *window){
 }
 
 bool firstMouse = true;
-void mouse_callback(GLFWwindow *window, double xpos, double ypos){
+void camera_mouse_callback(GLFWwindow *window, double xpos, double ypos){
     float lastX = (float)WIN_WIDTH/ 2.0;
     float lastY = (float)WIN_HEIGHT/ 2.0;
     if(firstMouse){
@@ -54,5 +54,6 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos){
     front[Z] = sin(glm_rad(yaw)) * cos(glm_rad(pitch));
     glm_normalize_to(front, cameraFront);
 
+	//move cursor to center or the screen
     glfwSetCursorPos(window, (double)WIN_WIDTH/2, (double)WIN_HEIGHT/2);
 }

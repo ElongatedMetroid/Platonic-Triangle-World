@@ -7,7 +7,7 @@
 #include "camera.h"
 #include "common.h"
 
-void processInput(GLFWwindow *window);
-void mouse_callback(GLFWwindow *window, double xpos, double ypos);
+void processCameraInput(GLFWwindow *window);
+void camera_mouse_callback(GLFWwindow *window, double xpos, double ypos);
 
 #endif //INPUT_H_
