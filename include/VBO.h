@@ -3,12 +3,9 @@
 
 #include <glad/glad.h>
 
-//VBO: Vertex Buffer Object
-extern GLuint VBOID;
-
-void VBO_Create(GLfloat *vertices, GLsizeiptr size);
-void VBO_Bind();
+void VBO_Create(GLuint *VBO_ID, GLfloat *vertices, GLsizeiptr size);
+void VBO_Bind(GLuint VBO_ID);
 void VBO_Unbind();
-void VBO_Delete();
+void VBO_Delete(GLuint *VBO_ID);
 
 #endif

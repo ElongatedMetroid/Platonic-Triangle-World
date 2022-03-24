@@ -66,16 +66,17 @@ int main(void) {
   //read the shaders from the vertex and fragment shader files, link them, and compile them (the program is referenced by ShaderID)
   Shader_ReadAndBuild(VSHADER_PATH, FSHADER_PATH);
 
+  GLuint VAO = 0, VBO = 0;
   // create Vertex Array Object
-  VAO_Create();
+  VAO_Create(&VAO);
   // bind the created Vertex Array Object
-  VAO_Bind();
+  VAO_Bind(VAO);
   // create a Vertex Buffer Object
-  VBO_Create(cubeVertices, cubeVerticesSize);
+  VBO_Create(&VBO, cubeVertices, cubeVerticesSize);
   // link layout 0, 3 elements, those elements are floats, the total size of each line in 5 floats, 0 floats to get to these elements 
-  VAO_LinkAttrib(0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
+  VAO_LinkAttrib(VAO, 0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
   // link layout 1, 2 elements, those elements are floats, the total size of each line is 5 floats, 3 floats to get to these elements
-  VAO_LinkAttrib(1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+  VAO_LinkAttrib(VAO, 1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 
   // unbind Vertex objects/references from buffers
   VBO_Unbind();
@@ -110,20 +111,20 @@ int main(void) {
 
     // set the active textures
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture_awesomeface);
-    glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture_grass);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, texture_awesomeface);
 
-	// Make sure we are using the shaders we specified earlier	
+	  // Make sure we are using the shaders we specified earlier	
     Shader_Use();
     // update camera positions
     Camera_Update();
 
-	// bind Vertex Array Object/reference because following this we will be drawing to the buffer 
-    VAO_Bind();
+	  // bind Vertex Array Object/reference because following this we will be drawing to the buffer 
+    VAO_Bind(VAO);
 
-    for (unsigned int rows = 0; rows < 100; rows++) {
-      for (unsigned int col = 0; col < 100; col++) {
+    for (unsigned int rows = 0; rows < 10; rows++) {
+      for (unsigned int col = 0; col < 10; col++) {
         vec3 cubePos = {col, 0, rows};
         mat4 model;
         glm_mat4_identity(model);
