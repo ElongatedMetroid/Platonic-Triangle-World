@@ -63,10 +63,12 @@ int main(void) {
 
   initGame(&window);
 
-  //read the shaders from the vertex and fragment shader files, link them, and compile them (the program is referenced by ShaderID)
-  Shader_ReadAndBuild(VSHADER_PATH, FSHADER_PATH);
+  //read the shaders from the vertex and fragment shader files, link them, and compile them (the program is referenced by lightingShaderID)
+  GLuint lightingShaderID = 0;
+  Shader_ReadAndBuild(&lightingShaderID, COLORS_VSHADER_PATH, COLORS_FSHADER_PATH);
+  //Shader_ReadAndBuild(lightingShaderID, COLORS_VSHADER_PATH, COLORS_FSHADER_PATH);
 
-  GLuint VAO = 0, VBO = 0;
+  GLuint VAO = 0, VBO = 0, lightVAO = 0;
   // create Vertex Array Object
   VAO_Create(&VAO);
   // bind the created Vertex Array Object
@@ -81,7 +83,15 @@ int main(void) {
   // unbind Vertex objects/references from buffers
   VBO_Unbind();
   VAO_Unbind();
-	
+
+  VAO_Create(&lightVAO);
+  VAO_Bind(lightVAO);
+  VAO_LinkAttrib(lightVAO, 0, 3, GL_FLOAT, 5 * sizeof(float), (void*)0);
+  VAO_LinkAttrib(VAO, 1, 2, GL_FLOAT, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+
+  VBO_Unbind();
+  VAO_Unbind();
+
   //create 2 texture references, one for awesome face and the other for grass
   GLuint texture_awesomeface, texture_grass;
   //Texture reference, texture path, type of texture, texture slot, format, and pixel type 
@@ -89,11 +99,11 @@ int main(void) {
   Texture_Load(&texture_grass, "../textures/grass.jpeg", GL_TEXTURE_2D, GL_TEXTURE1, GL_RGB, GL_UNSIGNED_BYTE);
 
   // use the created shader program
-  Shader_Use();
+  Shader_Use(lightingShaderID);
   // set texture1 to 0
-  Shader_SetInt("texture1", 0);
+  Shader_SetInt(lightingShaderID, "texture1", 0);
   // set texture2 to 1
-  Shader_SetInt("texture2", 1);
+  Shader_SetInt(lightingShaderID, "texture2", 1);
 
   // updates every frame
   while (!glfwWindowShouldClose(window)) {
@@ -116,9 +126,9 @@ int main(void) {
     glBindTexture(GL_TEXTURE_2D, texture_awesomeface);
 
 	  // Make sure we are using the shaders we specified earlier	
-    Shader_Use();
+    Shader_Use(lightingShaderID);
     // update camera positions
-    Camera_Update();
+    Camera_Update(lightingShaderID);
 
 	  // bind Vertex Array Object/reference because following this we will be drawing to the buffer 
     VAO_Bind(VAO);
@@ -129,7 +139,7 @@ int main(void) {
         mat4 model;
         glm_mat4_identity(model);
         glm_translate(model, cubePos);
-        Shader_SetMat4("model", (float *)model);
+        Shader_SetMat4(lightingShaderID, "model", (float *)model);
 
         glDrawArrays(GL_TRIANGLES, 0, 36);
       }

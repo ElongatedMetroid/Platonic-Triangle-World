@@ -10,7 +10,7 @@
 
 void Texture_Load(GLuint *ID, const char *image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType);
 
-void Texture_TexUnit(const char *uniform, GLuint unit);
+void Texture_TexUnit(GLuint ShaderID, const char *uniform, GLuint unit);
 
 void Texture_Bind(GLenum type, GLuint *ID);
 void Texture_Unbind(GLenum type, GLuint *ID);

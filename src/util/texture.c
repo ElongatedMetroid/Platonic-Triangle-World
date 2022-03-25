@@ -33,9 +33,9 @@ void Texture_Load(GLuint *ID, const char *image, GLenum texType, GLenum slot, GL
 	glBindTexture(texType, 0);
 }
 
-void Texture_TexUnit(const char *uniform, GLuint unit){
+void Texture_TexUnit(GLuint ShaderID, const char *uniform, GLuint unit){
 	GLuint texUni = glGetUniformLocation(ShaderID, uniform);
-	Shader_Use();
+	Shader_Use(ShaderID);
 	glUniform1i(texUni, unit);
 }
 

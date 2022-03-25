@@ -9,16 +9,14 @@
 
 #include "common.h"
 
-// the program ID
-extern unsigned int ShaderID;
 //the constuctor reads and builds the shader
-int Shader_ReadAndBuild(const char *vertexPath, const char *fragmentPath);
+int Shader_ReadAndBuild(GLuint *ShaderID, const char *vertexPath, const char *fragmentPath);
 //use/activate the shader
-void Shader_Use();
+void Shader_Use(GLuint ShaderID);
 //utility uniform functions
-void Shader_SetBool(const char *name, bool value);
-void Shader_SetInt(const char *name, int value);
-void Shader_SetFloat(const char *name, float value);
-void Shader_SetMat4(const char *name, vec4 value);
+void Shader_SetBool(GLuint ShaderID, const char *name, bool value);
+void Shader_SetInt(GLuint ShaderID, const char *name, int value);
+void Shader_SetFloat(GLuint ShaderID, const char *name, float value);
+void Shader_SetMat4(GLuint ShaderID, const char *name, vec4 value);
 
 #endif

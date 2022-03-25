@@ -20,6 +20,6 @@ extern float pitch;
 extern mat4 view;
 extern mat4 projection;
 
-extern void Camera_Update();
+extern void Camera_Update(GLuint ShaderID);
 
 #endif //CAMERA_H_

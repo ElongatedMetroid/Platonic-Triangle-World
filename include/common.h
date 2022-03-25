@@ -14,8 +14,8 @@
 #define WIN_HEIGHT 1080
 #define WIN_TITTLE "Platonic Triangle World"
 
-#define VSHADER_PATH "../shaders/shader.vs"
-#define FSHADER_PATH "../shaders/shader.fs"
+#define COLORS_VSHADER_PATH "../shaders/colors.vs"
+#define COLORS_FSHADER_PATH "../shaders/colors.fs"
 
 #ifdef DEBON
     /*

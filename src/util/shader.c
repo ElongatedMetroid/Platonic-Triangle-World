@@ -1,8 +1,6 @@
 #include "../../include/shader.h"
 
-unsigned int ShaderID;
-
-int Shader_ReadAndBuild(const char* vertexPath, const char *fragmentPath){
+int Shader_ReadAndBuild(GLuint *ShaderID, const char* vertexPath, const char *fragmentPath){
     char *vertexCode = NULL;
     char *fragmentCode = NULL;
 
@@ -86,14 +84,14 @@ int Shader_ReadAndBuild(const char* vertexPath, const char *fragmentPath){
     }
 
 	//set the ShaderID reference value
-    ShaderID = glCreateProgram();
+    *ShaderID = glCreateProgram();
 	//attach both shaders to the shader program
-    glAttachShader(ShaderID, vertex);
-    glAttachShader(ShaderID, fragment);
+    glAttachShader(*ShaderID, vertex);
+    glAttachShader(*ShaderID, fragment);
 	//link all shaders together
-    glLinkProgram(ShaderID);
+    glLinkProgram(*ShaderID);
 
-    glGetProgramiv(ShaderID, GL_LINK_STATUS, &success);
+    glGetProgramiv(*ShaderID, GL_LINK_STATUS, &success);
     if(!success){
         glGetShaderInfoLog(fragment, 512, NULL, infoLog);
         fprintf(stderr, "Shader program linking failed!\n %s\n", infoLog);
@@ -107,20 +105,20 @@ int Shader_ReadAndBuild(const char* vertexPath, const char *fragmentPath){
     return 0;
 }
 
-void Shader_Use(){
+void Shader_Use(GLuint ShaderID){
     glUseProgram(ShaderID);
 }
 
-void Shader_SetBool(const char *name, bool value){
+void Shader_SetBool(GLuint ShaderID, const char *name, bool value){
     glUniform1i(glGetUniformLocation(ShaderID, name), (int)value);
 }
-void Shader_SetInt(const char *name, int value){
+void Shader_SetInt(GLuint ShaderID, const char *name, int value){
     glUniform1i(glGetUniformLocation(ShaderID, name), value);
 }
-void Shader_SetFloat(const char *name, float value){
+void Shader_SetFloat(GLuint ShaderID, const char *name, float value){
     glUniform1f(glGetUniformLocation(ShaderID, name), value);
 }
-void Shader_SetMat4(const char *name, vec4 value){
+void Shader_SetMat4(GLuint ShaderID, const char *name, vec4 value){
     glUniformMatrix4fv(glGetUniformLocation(ShaderID, name), 1, GL_FALSE, value);
 }
 
